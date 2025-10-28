@@ -1,4 +1,4 @@
-# LCSOP-Local-partitioning-check-siphons-overlapping-property-algorithm
+# LCSOP: Local-partitioning check siphons overlapping property algorithm
 This is the first algorithm to check the siphon overlapping property (SOP) for an original Petri Net.
 
 Authors: Xiaotian Wang, David Angeli.
