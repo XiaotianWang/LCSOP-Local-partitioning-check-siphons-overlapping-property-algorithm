@@ -15,4 +15,5 @@ run [SOP] = DCSOP_L(Pre,Post).
 ```
 
 Pre is a matrix of Pre-conditions, while Post is a matrix of Post-conditions.
+
 SOP returns the result. SOP = 1 -> SOP holds; SOP = 0 -> SOP failure.
