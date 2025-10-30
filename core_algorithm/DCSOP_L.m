@@ -1,5 +1,5 @@
 function [SOP] = DCSOP_L(Pre,Post)
-%UNTITLED Summary of this function goes here
+%LCSOP Summary of this function goes here
 %   Detailed explanation goes here
 PreList = logical(Pre);
 PostList = logical(Post);
