@@ -20,10 +20,11 @@ SOP returns the result. SOP/Flag = 1 -> SOP holds; SOP/Flag = 0 -> SOP failure.
 
 For example:
 
+```matlab
 Pre = [1,0,0;0,1,0;0,0,1];
 Post = [0,0,1;1,0,0;0,1,0];
 [Flag] = DCSOP_L(Pre,Post);
-
+```
 ---
 
 If you want to compare LCSOP with the other two algorithms, LPMSE and LPMSEm, you can:
@@ -41,6 +42,8 @@ where
 | Number_Trans   | The number of transitions of the generated Petri Net |
 | Probability_Input   | Connection probability from a node to a tran |
 | Probability_Output   | Connection probability from a tran to a node |
+| T1, T2. T3   | Total execution time for LCSOP, LPMSE, and LPMSEm, respectively  |
+| T1_array, ...   | Individual execution time for each case |
 
 
 
