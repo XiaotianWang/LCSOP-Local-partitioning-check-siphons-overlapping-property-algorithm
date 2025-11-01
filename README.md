@@ -16,7 +16,13 @@ run [SOP] = DCSOP_L(Pre,Post).
 
 Pre is a matrix of Pre-conditions, while Post is a matrix of Post-conditions.
 
-SOP returns the result. SOP = 1 -> SOP holds; SOP = 0 -> SOP failure.
+SOP returns the result. SOP/Flag = 1 -> SOP holds; SOP/Flag = 0 -> SOP failure.
+
+For example:
+
+Pre = [1,0,0;0,1,0;0,0,1];
+Post = [0,0,1;1,0,0;0,1,0];
+[Flag] = DCSOP_L(Pre,Post);
 
 
 ## Notice
