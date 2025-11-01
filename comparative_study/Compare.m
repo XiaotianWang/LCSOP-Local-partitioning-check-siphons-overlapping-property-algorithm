@@ -42,14 +42,14 @@ for i = 1:Number_Cases
     T2_array(Index) = temp;
     disp('LDMSN is completed');
     tic
-    % [Flag3] = FindAllMinimalSiphons_LFMO(Pre,Post);
+    [Flag3] = FindAllMinimalSiphons_LFMO(Pre,Post);
     temp = toc;
     T3 = T3+temp;
     T3_array(Index) = temp;
     disp('LFMO is completed');
 
     %
-    if ~(Flag1==Flag2)
+    if ~(Flag1==Flag2 && Flag1==Flag3)
         stop;
         error('different results');
     end

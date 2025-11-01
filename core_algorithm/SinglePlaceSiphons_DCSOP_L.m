@@ -12,7 +12,7 @@ while ~isempty(P_tilde)
         CheckedProblem{1} = G;
         CheckedProblem{2} = [];
         CheckedProblem{3} = p;
-        [returnSiphon,~] = FindSiphon_DCSOP(CheckedProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+        [returnSiphon,~] = FindSiphon_DCSOP_L(CheckedProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 
         if ~isempty(returnSiphon)
             SOP = false;
