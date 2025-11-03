@@ -46,6 +46,10 @@ where
 | T1_array, ...   | Individual execution time for each case |
 
 
+For example
+```matlab
+[T1,T2,T3,T1_array,T2_array,T3_array] = Compare(10,20,20,0.2,0.2);
+```
 
 ## Notice
 
