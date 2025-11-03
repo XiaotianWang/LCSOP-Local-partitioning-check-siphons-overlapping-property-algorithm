@@ -15,6 +15,7 @@ random_temp_Post = zeros(Number_Nodes,Number_Trans);
 Pre = random_temp_Pre;
 Post = random_temp_Post;
 
+%% 
 
 for i = 1:Number_Cases
 
@@ -27,22 +28,27 @@ for i = 1:Number_Cases
     Post = random_temp_Post<Probability_Output;
     % Graph = logical(Pre*Post');
 
+    % execute the LCSOP
     tic
     % [A] = GetAllCycles(Pre,Post);
-    [Flag1] = DCSOP_L(Pre,Post);
+    [Flag1] = LCSOP(Pre,Post);
 
     temp = toc;
     T1 = T1+temp;
     T1_array(Index) = temp;
     disp('DCSOP is completed');
+
+    % execute the LPMSEm
     tic
-    [Flag2] = FindAllMinimalSiphons_LDMSN(Pre,Post);
+    [Flag2] = LPMSEm(Pre,Post);
     temp=toc;
     T2 = T2+temp;
     T2_array(Index) = temp;
     disp('LDMSN is completed');
+
+    % execute the LPMSE
     tic
-    [Flag3] = FindAllMinimalSiphons_LFMO(Pre,Post);
+    [Flag3] = LPMSE(Pre,Post);
     temp = toc;
     T3 = T3+temp;
     T3_array(Index) = temp;

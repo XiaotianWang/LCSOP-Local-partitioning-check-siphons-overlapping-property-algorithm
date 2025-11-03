@@ -1,6 +1,8 @@
-function [SOP] = DCSOP_L(Pre,Post)
-%LCSOP Summary of this function goes here
+function [SOP] = LPMSEm(Pre,Post)
+%UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
+SOP = true;
+
 PreList = logical(Pre);
 PostList = logical(Post);
 [Num_Node, Num_Tran] = size(Pre);
@@ -28,50 +30,46 @@ T = 1:Num_Tran;
 G{1} = P;
 G{2} = T;
 
-%%
-SOP = true;
-[~,Pout,SOP]=SinglePlaceSiphons_DCSOP_L(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+%% 
+
+[SiphonSet,Pout]=SinglePlaceSiphons_LDMSN(G,Nodes_Input);
 if ~SOP
     return;
 end
 CurrentProblem{1} = G;
 CurrentProblem{2} = [];
 CurrentProblem{3} = Pout;
+ProblemSet{1} = CurrentProblem;
 
-% [Siphon,CurrentProblem] = FindAndCheck(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
-
-[Siphon,CurrentProblem] = FindSiphon_DCSOP_L(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
-
-if ~isempty(Siphon)
-    [Siphon,SOP] = FindMSAndCheck_L(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
-    if ~SOP
-        return;
-    end
+SOP = SolveList_LDMSN(SiphonSet,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+if ~SOP
+    return;
 end
 
-Max_M = floor(size(Siphon,2)/2);
-
-for i = 1:Max_M
-    ComProblemSet = nchoosek(Siphon,i);
-
-    for j = 1:size(ComProblemSet,1)
-        CheckedProblem{1} = G;
-        CheckedProblem{2} = ComProblemSet(j,:);
-        CheckedProblem{3} = setdiff(Siphon,CheckedProblem{2});
-
-        ProblemSet{1} = CheckedProblem;
-        SOP = SolveList_DCSOPL(G,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
-        if ~SOP
-            return;
-        end
-    end
-    
-end
-
+% %% delete non-minimal siphon from siphon set.
+% flagMinSiphon = true(1,size(SiphonSet,2));
+% 
+% for i = 1:size(SiphonSet,2)
+%     for j = i+1:size(SiphonSet,2)
+%         if all(ismember(SiphonSet{i},SiphonSet{j}))            % 如果i subset j，则j不是MS
+%             flagMinSiphon(j) = false;
+%         elseif all(ismember(SiphonSet{j},SiphonSet{i}))
+%             flagMinSiphon(i) = false;
+%         end
+%     end
+% end
+% 
+% MinSiphonSet = [];
+% for i = 1:size(SiphonSet,2)
+%     if flagMinSiphon(i)
+%         MinSiphonSet{end+1} = SiphonSet{i};            % 到这里才得到真正的MS
+%     end
+% end
 
 
 
 end
+
 
 
 %% test data 
@@ -79,12 +77,12 @@ end
 case 1              done
 Pre = [1,0,0;0,1,0;0,0,1];
 Post = [0,0,1;1,0,0;0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 2          done
 Pre = [1,0,0,0,0;0,1,0,0,1;0,0,1,0,0;0,0,0,1,0];
 Post = [0,0,1,1,0;1,0,0,0,0;0,1,0,0,0;0,0,0,0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 %}
 
 %{
@@ -93,19 +91,19 @@ Pre =[1,0,0,0,0,0;0,1,0,0,0,0;0,0,1,1,0,0;
 0,0,0,0,1,0;0,0,0,0,1,0;0,0,0,0,0,1];
 Post =[0,0,0,0,0,1;1,0,0,0,0,0;0,1,0,0,0,0;
 0,0,1,0,0,0;0,0,0,1,0,0;0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 %}
 
 %{
 case 4      done
 Pre = [1,0,0,0,0,0;0,1,0,0,0,0;0,0,1,1,0,0;0,0,0,0,1,0;0,0,0,0,0,1];
 Post = [0,0,0,0,0,1,;1,0,0,1,0,0;0,1,0,0,0,0;0,0,1,0,0,0;0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 5      done
 Pre = [1,0,0,0,0;0,1,0,0,0;1,0,1,0,0;0,0,0,1,0;0,0,0,0,1];
 Post = [0,0,0,0,1;1,0,0,0,0;0,1,0,0,0;0,0,1,0,0;0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 6     done
 Pre = [1,0,0,0,0,0,0,0,0;0,1,0,0,0,0,0,0,0;0,0,1,0,0,0,0,1,0;
@@ -114,26 +112,26 @@ Pre = [1,0,0,0,0,0,0,0,0;0,1,0,0,0,0,0,0,0;0,0,1,0,0,0,0,1,0;
 Post = [0,0,0,0,1,0,1,0,0;1,0,0,0,0,0,0,0,1;0,1,0,0,0,0,0,0,0;
 0,0,1,0,0,0,0,0,0;0,0,0,1,0,0,0,0,0;0,0,0,0,0,1,0,0,0;
 0,0,0,0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 7  ???????????????
 Pre = [1,0,0,0,0,0,0;0,1,0,0,0,0,0;0,0,1,1,1,0,0;0,0,0,0,0,1,0;
 0,0,0,0,0,1,0;0,0,0,0,0,1,0;0,0,0,0,0,0,1];
 Post = [0,0,0,0,0,0,1;1,0,0,0,0,0,0;0,1,0,0,0,0,0;
 0,0,1,0,0,0,0;0,0,0,1,0,0,0;0,0,0,0,1,0,0;0,0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 8
 Pre = [1,0,0,1;0,1,0,0;0,0,1,0;0,0,1,0];
 Post = [0,0,1,0;1,0,0,0;0,1,0,0;0,0,0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 9   Wrong!!!!!!
 Pre =[1,0,0,0,0,0,0;0,1,0,0,0,0,0;0,0,1,0,0,0,0;
 0,0,0,1,0,0,0;0,0,0,0,1,0,1;0,0,0,0,0,1,0];
 Post =[0,0,1,1,0,0,0;1,0,0,0,0,0,0;0,1,0,0,0,0,0;
 0,0,0,0,1,0,0;0,0,0,0,0,1,0;0,0,0,0,0,0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 
 case 10
@@ -143,7 +141,7 @@ Pre = [1,0,0,0,0,0,0,0,0;0,1,0,1,0,0,0,0,0;0,0,1,0,0,0,0,1,0;
 Post = [0,0,1,0,0,0,0,0,0;1,0,0,0,0,0,1,0,0;0,1,0,0,0,0,0,0,0;
 0,0,0,1,0,0,0,0,0;0,0,0,0,1,0,0,0,1;0,0,0,0,0,1,0,0,0;
 0,0,0,0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 11
 Pre = [1,0,0,1,0,0,0,0;0,1,0,0,0,0,1,0;0,0,1,0,0,0,0,0;
@@ -152,25 +150,30 @@ Pre = [1,0,0,1,0,0,0,0;0,1,0,0,0,0,1,0;0,0,1,0,0,0,0,0;
 Post = [0,0,1,0,0,0,0,0;1,0,0,0,0,0,0,0;0,1,0,0,0,0,0,0;
 0,0,0,1,0,0,0,0;0,0,0,0,1,0,0,1;0,0,0,0,0,1,0,0;
 0,0,0,0,0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 12
 Pre = [1,0,0,0,0,0;0,1,0,0,0,0;0,0,1,0,0,0;0,0,0,1,0,1;0,0,0,0,1,0];
 Post = [0,0,1,1,0,0;1,0,0,0,0,0;0,1,0,0,0,0;0,0,0,0,1,0;0,0,0,0,0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 13
 Pre = [1,0,0,0,0;0,1,1,0,0;0,0,1,0,1;0,0,0,1,0];
 Post = [0,0,1,0,0;1,0,0,0,0;0,1,0,1,0;0,0,0,0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 14
 Pre = [1,1;0,1];
 Post = [1,0;0,1];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 
 case 15
 Pre = [1,0,0,0;0,1,0,1;0,1,1,0;0,0,0,1];
 Post = [0,1,0,0;1,0,0,0;0,0,0,1;0,0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
+
+case 16
+Pre = [0,0,1;0,0,1;1,1,0];
+Post = [1,0,0;0,1,0;0,0,1];
+[SOP] = FindAllMinimalSiphons_LDMSN(Pre,Post);
 %}

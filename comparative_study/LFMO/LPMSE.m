@@ -1,4 +1,4 @@
-function [SOP] = FindAllMinimalSiphons_LFMO(Pre,Post)
+function [SOP] = LPMSE(Pre,Post)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
 SOP = true;
