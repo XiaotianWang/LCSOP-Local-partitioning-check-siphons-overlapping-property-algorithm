@@ -1,6 +1,21 @@
 function [SOP] = LCSOP(Pre,Post)
-%LCSOP Summary of this function goes here
-%   Detailed explanation goes here
+% LCSOP Summary of this function goes here
+% This is the first algorithm for verifying the siphon overlapping
+% property. Some of functions are from the
+% R. Cordone, L. Ferrarini, and L. Piroddi, “Enumeration algorithms
+% for minimal siphons in petri nets based on place constraints,” IEEE
+% Transactions on Systems, Man, and Cybernetics-Part A: Systems and
+% Humans, vol. 35, no. 6, pp. 844–854, 2005.
+
+% The idea of this algorithm is that:
+% First, find one siphon, named target siphon, in the Petri Net;
+% Then, try to find another siphon in the Petri Net without the target
+% siphon;
+% repeat the above two steps until finishing the verifying for all siphons.
+
+% Author: Xiaotian Wang, David Angeli.
+
+
 PreList = logical(Pre);
 PostList = logical(Post);
 [Num_Node, Num_Tran] = size(Pre);
@@ -30,7 +45,7 @@ G{2} = T;
 
 %%
 SOP = true;
-[~,Pout,SOP]=SinglePlaceSiphons_DCSOP_L(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+[~,Pout,SOP]=SinglePlaceSiphons_LCSOP(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 if ~SOP
     return;
 end
@@ -40,7 +55,7 @@ CurrentProblem{3} = Pout;
 
 % [Siphon,CurrentProblem] = FindAndCheck(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 
-[Siphon,CurrentProblem] = FindSiphon_DCSOP_L(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+[Siphon,CurrentProblem] = FindSiphon(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 
 if ~isempty(Siphon)
     [Siphon,SOP] = FindMSAndCheck_L(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
@@ -60,7 +75,7 @@ for i = 1:Max_M
         CheckedProblem{3} = setdiff(Siphon,CheckedProblem{2});
 
         ProblemSet{1} = CheckedProblem;
-        SOP = SolveList_DCSOPL(G,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+        SOP = SolveList_LCSOP(G,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
         if ~SOP
             return;
         end

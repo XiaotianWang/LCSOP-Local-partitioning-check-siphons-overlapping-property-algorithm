@@ -41,7 +41,7 @@ CurrentProblem{2} = [];
 CurrentProblem{3} = Pout;
 ProblemSet{1} = CurrentProblem;
 
-SOP = SolveList_LDMSN(SiphonSet,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+SOP = SolveList_LPMSEm(SiphonSet,ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 if ~SOP
     return;
 end

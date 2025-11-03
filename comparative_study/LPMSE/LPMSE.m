@@ -1,6 +1,8 @@
 function [SOP] = LPMSE(Pre,Post)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+% LPMSE Summary of this function goes here
+% This is the algorithm for verifying the siphon overlapping property.
+% 
+
 SOP = true;
 
 PreList = logical(Pre);
@@ -38,7 +40,7 @@ CurrentProblem{2} = [];
 CurrentProblem{3} = Pout;
 ProblemSet{1} = CurrentProblem;
 
-SiphonSet = horzcat(SiphonSet,SolveList_LFMO(ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output));
+SiphonSet = horzcat(SiphonSet,SolveList_LPMSE(ProblemSet,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output));
 
 %% Finally check the siphon overlapping property.
 
