@@ -5,13 +5,13 @@ Authors: Xiaotian Wang, David Angeli.
 
 ## Requirements
 
-- **MATLAB R2023b+** (tested on R2023b)
+- **MATLAB R2023b+** (tested on R2023b, R2025b)
 
 
 ## Quick Start
 
 ```matlab
-[SOP] = DCSOP_L(Pre,Post)
+[SOP] = LCSOP(Pre,Post)
 ```
 
 Pre is a matrix of Pre-conditions, while Post is a matrix of Post-conditions.
@@ -21,9 +21,9 @@ SOP returns the result. SOP/Flag = 1 -> SOP holds; SOP/Flag = 0 -> SOP failure.
 For example:
 
 ```matlab
-Pre = [1,0,0;0,1,0;0,0,1];
-Post = [0,0,1;1,0,0;0,1,0];
-[Flag] = DCSOP_L(Pre,Post);
+Pre = [1,0,0; 0,1,0; 0,0,1];
+Post = [0,0,1; 1,0,0; 0,1,0];
+[Flag] = LCSOP(Pre,Post);
 ```
 ---
 

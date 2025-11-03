@@ -32,7 +32,7 @@ G{2} = T;
 
 %% 
 
-[SiphonSet,Pout]=SinglePlaceSiphons_LDMSN(G,Nodes_Input);
+[SiphonSet,Pout]=SinglePlaceSiphons_LPMSEm(G,Nodes_Input);
 if ~SOP
     return;
 end

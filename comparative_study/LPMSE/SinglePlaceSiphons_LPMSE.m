@@ -1,4 +1,4 @@
-function [SiphonSet,Pout]=SinglePlaceSiphons_LFMO(G,Nodes_Input)
+function [SiphonSet,Pout]=SinglePlaceSiphons_LPMSE(G,Nodes_Input)
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 SiphonSet = [];

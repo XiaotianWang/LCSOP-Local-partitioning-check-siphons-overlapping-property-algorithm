@@ -32,7 +32,7 @@ G{2} = T;
 
 %% 
 
-[SiphonSet,Pout]=SinglePlaceSiphons_LFMO(G,Nodes_Input);
+[SiphonSet,Pout]=SinglePlaceSiphons_LPMSE(G,Nodes_Input);
 CurrentProblem{1} = G;
 CurrentProblem{2} = [];
 CurrentProblem{3} = Pout;

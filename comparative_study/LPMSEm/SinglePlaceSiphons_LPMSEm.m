@@ -1,4 +1,4 @@
-function [SiphonSet,Pout,SOP]=SinglePlaceSiphons_LDMSN(G,Nodes_Input)
+function [SiphonSet,Pout,SOP]=SinglePlaceSiphons_LPMSEm(G,Nodes_Input)
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 SOP = true;
