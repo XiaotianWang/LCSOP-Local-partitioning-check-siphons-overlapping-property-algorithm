@@ -1,6 +1,12 @@
 function [SOP] = LPMSEm(Pre,Post)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+% LPMSEm Summary of this function goes here
+% This is the algorithm for verifying the siphon overlapping property.
+% We modified the LPMSE:
+% Whenever one siphon is found, LPMSEm will check whether this siphon
+% overlaps other found siphons.
+
+% Author: Xiaotian Wang
+
 SOP = true;
 
 PreList = logical(Pre);

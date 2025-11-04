@@ -1,7 +1,14 @@
 function [SOP] = LPMSE(Pre,Post)
 % LPMSE Summary of this function goes here
 % This is the algorithm for verifying the siphon overlapping property.
-% 
+% This algorithm comes from
+% R. Cordone, L. Ferrarini, and L. Piroddi, "Enumeration algorithms
+% for minimal siphons in petri nets based on place constraints," IEEE
+% Transactions on Systems, Man, and Cybernetics-Part A: Systems and
+% Humans, vol. 35, no. 6, pp. 844–854, 2005.
+
+% We use LPMSE algorithm to collect all minimal siphons.
+% Then, we determine whether any two sets of siphons have an intersection.
 
 SOP = true;
 
