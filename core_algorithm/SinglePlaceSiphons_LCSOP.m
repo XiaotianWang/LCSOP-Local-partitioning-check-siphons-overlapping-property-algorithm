@@ -1,14 +1,15 @@
-function [SiphonSet,Pout,SOP]=SinglePlaceSiphons_LCSOP(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output)
+function [Flag_SingleSiphon,SOP]=SinglePlaceSiphons_LCSOP(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output)
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 SOP = true;
-SiphonSet = [];
+Flag_SingleSiphon = false;
 P_tilde = G{1};
-Pout = [];
 
 while ~isempty(P_tilde)
     p = P_tilde(end);
+    P_tilde(end) = [];
     if isempty(Nodes_Input{p})
+        Flag_SingleSiphon = true;
         CheckedProblem{1} = G;
         CheckedProblem{2} = [];
         CheckedProblem{3} = p;
@@ -16,12 +17,9 @@ while ~isempty(P_tilde)
 
         if ~isempty(returnSiphon)
             SOP = false;
-            return;
         end
-        SiphonSet{end+1} = p;
-        Pout(end+1) = p;
+        return;
     end
-    P_tilde(end) = [];
 end
 
 end

@@ -45,13 +45,14 @@ G{2} = T;
 
 %%
 SOP = true;
-[~,Pout,SOP]=SinglePlaceSiphons_LCSOP(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
-if ~SOP
+Flag_SingleSiphon = false;
+[Flag_SingleSiphon,SOP]=SinglePlaceSiphons_LCSOP(G,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+if Flag_SingleSiphon
     return;
 end
 CurrentProblem{1} = G;
 CurrentProblem{2} = [];
-CurrentProblem{3} = Pout;
+CurrentProblem{3} = [];
 
 % [Siphon,CurrentProblem] = FindAndCheck(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 
