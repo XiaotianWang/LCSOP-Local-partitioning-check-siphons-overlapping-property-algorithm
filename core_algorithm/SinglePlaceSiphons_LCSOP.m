@@ -8,7 +8,7 @@ P_tilde = G{1};
 while ~isempty(P_tilde)
     p = P_tilde(end);
     P_tilde(end) = [];
-    if isempty(Nodes_Input{p})
+    if all(ismember(horzcat(Nodes_Input{p}),horzcat(Nodes_Output{p})))
         Flag_SingleSiphon = true;
         CheckedProblem{1} = G;
         CheckedProblem{2} = [];
