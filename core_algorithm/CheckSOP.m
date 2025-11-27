@@ -1,4 +1,4 @@
-function [Siphon,SOP] = FindMSAndCheck_L(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output)
+function [Siphon,SOP] = CheckSOP(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 SOP = true;

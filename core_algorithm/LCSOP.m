@@ -59,7 +59,7 @@ CurrentProblem{3} = [];
 [Siphon,CurrentProblem] = FindSiphon(CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
 
 if ~isempty(Siphon)
-    [Siphon,SOP] = FindMSAndCheck_L(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
+    [Siphon,SOP] = CheckSOP(G,Siphon,CurrentProblem,Nodes_Input,Nodes_Output,Trans_Input,Trans_Output);
     if ~SOP
         return;
     end
